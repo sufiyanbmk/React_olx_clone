@@ -3,6 +3,7 @@ import {BrowserRouter as Router,Route} from 'react-router-dom'
 import  SignupPage from './Pages/Signup'
 import Login from './Pages/Login'
 import './App.css';
+import Create from './Pages/Create'
 /**
  * ?  =====Import Components=====
  */
@@ -32,6 +33,10 @@ function App() {
 
         <Route path= '/login'>
          <Login />
+        </Route>
+
+        <Route path= '/create'>
+         <Create />
         </Route>
 
       </Router>
