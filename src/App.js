@@ -2,8 +2,10 @@ import React,{useEffect,useContext} from 'react';
 import {BrowserRouter as Router,Route} from 'react-router-dom'
 import  SignupPage from './Pages/Signup'
 import Login from './Pages/Login'
+import View from './Pages/ViewPost'
 import './App.css';
 import Create from './Pages/Create'
+import Post from './store/PostContext'
 /**
  * ?  =====Import Components=====
  */
@@ -22,6 +24,7 @@ function App() {
   })
   return (
     <div>
+    <Post>
       <Router>
         <Route exact path= '/'>
          <Home />
@@ -39,7 +42,12 @@ function App() {
          <Create />
         </Route>
 
+        <Route path= '/view'>
+         <View />
+        </Route>
+
       </Router>
+    </Post> 
     </div>
   );
 }
