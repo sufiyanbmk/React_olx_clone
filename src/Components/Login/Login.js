@@ -7,15 +7,36 @@ import {useHistory} from 'react-router-dom'
 function Login() {
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
+  const [errors, setErrors] = useState({});
   const {Firebase} = useContext(FirebaseContext)
   let history = useHistory()
   const handleLogin = (e)=> {
     e.preventDefault()
-    Firebase.auth().signInWithEmailAndPassword(email,password).then(()=>{
-      history.push('/')
-    }).catch((error)=>{
-      alert(error.message)
-    })
+    if(email.length > 0 && password.length > 5){
+      Firebase.auth().signInWithEmailAndPassword(email,password).then(()=>{
+        history.push('/')
+      }).catch((error)=>{
+        alert(error.message)
+      })
+   }else{
+    if(email.length <= 0){
+
+      setErrors({
+        errorusername : 'username name is required'
+      })
+      alert("error")
+    }
+    else if(password.length <= 0){
+      setErrors({
+        errorpassword : 'password is required'
+      })
+    }
+    else{
+      setErrors({
+        errorpassword : 'password have minimum 5'
+      })
+    }
+   }
   }
   return (
     <div>
@@ -34,6 +55,7 @@ function Login() {
             defaultValue="John"
           />
           <br />
+          <p style={{color:"red"}}> {errors.errorusername} </p>
           <label htmlFor="lname">Password</label>
           <br />
           <input
@@ -46,6 +68,7 @@ function Login() {
             defaultValue="Doe"
           />
           <br />
+          <p style={{color:"red"}}> {errors.errorpassword} </p>
           <br />
           <button>Login</button>
         </form>

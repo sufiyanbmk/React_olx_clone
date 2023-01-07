@@ -11,11 +11,13 @@ export default function Signup() {
   const [email,setEmail] = useState('');
   const [phone ,setPhone] = useState('');
   const [password,setPassword] = useState('');
+  const [errors, setErrors] = useState({});
   
   const {Firebase} = useContext(FirebaseContext)
   let history = useHistory();
   const handleSubmit = (e) =>{
     e.preventDefault()
+    if(email.length > 0 && password.length >6 && phone.length > 9 && username.length > 0){
     Firebase.auth().createUserWithEmailAndPassword(email,password).then((result)=>{
       result.user.updateProfile({displayName:username})
       Firebase.firestore().collection('users').add({
@@ -25,8 +27,26 @@ export default function Signup() {
       }).then(()=>{
         history.push("/login")
       })
-
+    }).catch((error)=>{
+      alert(error.message)
     })
+  }else{
+    if(username.length <= 0){
+      setErrors({
+        errorusername : 'username name is required'
+      })
+    }
+    else if(email.length <= 0){
+      setErrors({
+        erroremail : 'email is required'
+      })
+    }
+    else if(password.length <= 5){
+      setErrors({
+        errorpassword : 'password is required'
+      })
+    }
+  }
   }
   return (
     <div>
@@ -45,6 +65,7 @@ export default function Signup() {
             defaultValue="John"
           />
           <br />
+          <p style={{color:"red"}}> {errors.errorusername} </p>
           <label htmlFor="fname">Email</label>
           <br />
           <input
@@ -57,6 +78,7 @@ export default function Signup() {
             defaultValue="John"
             />
           <br />
+          <p style={{color:"red"}}> {errors.erroremail} </p>
           <label htmlFor="lname">Phone</label>
           <br />
           <input
@@ -81,10 +103,13 @@ export default function Signup() {
             defaultValue="Doe"
           />
           <br />
+          <p style={{color:"red"}}> {errors.errorpassword} </p>
           <br />
           <button>Signup</button>
         </form>
-        <a>Login</a>
+        <a onClick={()=>{
+          history.push('/login')
+        }}>Login</a>
       </div>
     </div>
   );

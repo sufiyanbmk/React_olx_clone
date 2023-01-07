@@ -26,6 +26,8 @@ const Create = () => {
         })
         history.push('/')
       })
+    }).catch((error)=>{
+      alert(error.message)
     })
   }
 
