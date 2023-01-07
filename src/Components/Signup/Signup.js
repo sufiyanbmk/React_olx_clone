@@ -4,13 +4,13 @@ import Logo from '../../olx-logo.png';
 import { FirebaseContext } from '../../store/Context';
 import {useHistory} from 'react-router-dom'
 import './Signup.css';
+import {useForm } from "react-hook-form"
 
 export default function Signup() {
   const [username,setUsername] = useState('')
   const [email,setEmail] = useState('');
   const [phone ,setPhone] = useState('');
   const [password,setPassword] = useState('');
- 
   
   const {Firebase} = useContext(FirebaseContext)
   let history = useHistory();
@@ -23,7 +23,6 @@ export default function Signup() {
         username:username,
         phone:phone
       }).then(()=>{
-        console.log('hiiii')
         history.push("/login")
       })
 
@@ -56,7 +55,7 @@ export default function Signup() {
             onChange={(e) => setEmail(e.target.value)}
             name="email"
             defaultValue="John"
-          />
+            />
           <br />
           <label htmlFor="lname">Phone</label>
           <br />
